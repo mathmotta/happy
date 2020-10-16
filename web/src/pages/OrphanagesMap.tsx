@@ -32,7 +32,7 @@ function OrphanagesMap() {
                     <img src={mapLogo} alt="Happy" />
 
                     <h2>Choose an orphanage from the map</h2>
-                    <p>Lot's of kids are waiting for your visit!</p>
+                    <p>Lots of kids are waiting for your visit!</p>
                 </header>
                 <footer>
                     <strong>Oeiras</strong>
