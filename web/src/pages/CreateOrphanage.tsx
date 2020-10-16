@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
 import { LeafletMouseEvent } from 'leaflet'
 
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiX } from "react-icons/fi";
 
 import '../styles/pages/create-orphanage.css';
 import Sidebar from "../components/Sidebar";
@@ -19,7 +19,6 @@ export default function CreateOrphanage() {
   const [opening_hours, setOpeningHours] = useState('')
   const [open_on_weekends, setOpenOnWeekends] = useState(true)
   const [images, setImages] = useState<File[]>([])
-  const [previewImages, setPreviewImages] = useState<string[]>([])
   const [isMarked, setIsMarked] = useState(false)
 
   navigator.geolocation.getCurrentPosition(function(pos){
@@ -69,12 +68,11 @@ export default function CreateOrphanage() {
     const selectedImages = Array.from(event.target.files)
 
     setImages(selectedImages)
+  }
 
-    const selectedImagesPreview = selectedImages.map(img => {
-      return URL.createObjectURL(img);
-    })
-
-    setPreviewImages(selectedImagesPreview)
+  function handleDelete(image: File){
+    const newImages = images.filter((img) => img !== image)
+    setImages(newImages)
   }
 
   return (
@@ -117,11 +115,18 @@ export default function CreateOrphanage() {
               <label htmlFor="images">Photos</label>
 
               <div className="images-container">
-                {previewImages.map(image => {
+                {images.map(image => {
                   return (
-                    <img key={image} src={image} alt={name}/>
+                    <div key={image.name} className="new-image-delete">
+                      <label htmlFor="string" className="new-image-delete-x">
+                        <FiX size={24}  />
+                      </label>
+                      <img  src={URL.createObjectURL(image)} alt={name} />
+                      <input type="button" id="string" onClick={() => handleDelete(image)}/>
+                    </div>
                   )
                 })}
+
 
                 <label htmlFor="image[]" className="new-image">
                   <FiPlus size={24} color="#15b6d6" />
